@@ -5,15 +5,15 @@ export default function Home() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
   const createNewDocument = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
-      const response = await fetch('http://localhost:3001/api/docs', {
+      const response = await fetch(`${API_URL}/api/docs`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json'
         }
       });
@@ -23,7 +23,7 @@ export default function Home() {
       }
 
       const data = await response.json();
-      
+
       if (!data.docId) {
         throw new Error('Invalid response from server');
       }
@@ -71,7 +71,7 @@ export default function Home() {
             <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
               <strong>Error:</strong> {error}
               <p className="text-sm mt-2">
-                Make sure the backend server is running on port 3001. 
+                Make sure the backend server is running on port 3001.
                 Run <code className="bg-red-200 px-1 rounded">npm run dev</code> in the backend directory.
               </p>
             </div>

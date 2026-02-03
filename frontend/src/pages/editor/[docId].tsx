@@ -13,9 +13,9 @@ export default function EditorPage() {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string>('');
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
   const { setDocId, addPendingOp, setContent } = useEditorStore();
   const { sendMessage } = useWebSocket(token, docId as string);
-
   useEffect(() => {
     // Auto-login for demo purposes
     const login = async () => {
@@ -23,7 +23,7 @@ export default function EditorPage() {
       setUserId(userId);
 
       try {
-        const response = await fetch('http://localhost:3001/api/auth/login', {
+        const response = await fetch(`${API_URL}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId })

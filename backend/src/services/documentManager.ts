@@ -1,5 +1,5 @@
 import { DocumentModel } from '../models/document';
-import { Operation } from '../../../shared/ws.types';
+import { Operation } from '../shared/ws.types';
 import { OTEngine } from '../ot/engine';
 
 interface DocumentState {

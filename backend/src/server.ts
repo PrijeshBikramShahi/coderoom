@@ -9,7 +9,7 @@ import { DocumentManager } from './services/documentManager';
 import { PresenceManager } from './services/presenceManager';
 import { ConnectionManager } from './services/connectionManager';
 import { createRouter } from './routes/api';
-import { WSMessage } from '../../shared/ws.types';
+import { WSMessage } from './shared/ws.types';
 
 dotenv.config();
 

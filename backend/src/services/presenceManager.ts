@@ -1,5 +1,5 @@
 import Redis from 'ioredis';
-import { Cursor } from '../../../shared/ws.types';
+import { Cursor } from '../shared/ws.types';
 
 export class PresenceManager {
   private redis: Redis;

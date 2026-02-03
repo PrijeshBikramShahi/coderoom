@@ -1,5 +1,5 @@
-import { OTEngine } from '../src/ot/engine';
-import { Operation } from '../../shared/ws.types';
+import { OTEngine } from './backend/src/ot/engine';
+import { Operation } from './backend/src/shared/ws.types';
 
 describe('OTEngine', () => {
   describe('transform', () => {

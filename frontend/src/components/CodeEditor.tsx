@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { useEditorStore } from '../store/editorStore';
-import { Operation } from '../../../shared/ws.types';
+import { Operation } from '../../../backend/src/shared/ws.types';
 import { v4 as uuidv4 } from 'uuid';
 
 interface CodeEditorProps {

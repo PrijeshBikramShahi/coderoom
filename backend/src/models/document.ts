@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { Document as DocType } from '../../../shared/ws.types';
+import { Document as DocType } from '../shared/ws.types';
 
 const documentSchema = new Schema<DocType>({
   content: { type: String, required: true, default: '' },

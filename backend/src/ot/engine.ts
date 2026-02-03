@@ -1,4 +1,4 @@
-import { Operation } from '../../../shared/ws.types';
+import { Operation } from '../shared/ws.types';
 
 /**
  * Simplified Operational Transform (OT) implementation

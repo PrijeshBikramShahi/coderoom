@@ -1,6 +1,6 @@
 import { WebSocket } from 'ws';
 import jwt from 'jsonwebtoken';
-import { WSMessage, Operation, Cursor } from '../../../shared/ws.types';
+import { WSMessage, Operation, Cursor } from '../shared/ws.types';
 import { DocumentManager } from './documentManager';
 import { PresenceManager } from './presenceManager';
 

@@ -4,7 +4,7 @@ import {
   Operation, 
   Cursor, 
   WSMessage 
-} from '../../../backend/src/shared/ws.types';
+} from '../../shared/ws.types';
 
 interface EditorState {
   docId: string | null;

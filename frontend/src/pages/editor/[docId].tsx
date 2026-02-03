@@ -5,7 +5,7 @@ import { useWebSocket } from '../../hooks/useWebSocket';
 import { CodeEditor } from '../../components/CodeEditor';
 import { CollaboratorsPanel } from '../../components/CollaboratorsPanel';
 import { TopBar } from '../../components/TopBar';
-import { Operation, WSMessage } from '../../../../backend/src/shared/ws.types';
+import { Operation, WSMessage } from '../../../shared/ws.types';
 
 export default function EditorPage() {
   const router = useRouter();

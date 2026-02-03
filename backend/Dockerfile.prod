@@ -2,20 +2,28 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+# Copy backend dependencies only
+COPY backend/package*.json ./backend/
+RUN npm ci --prefix backend
 
-COPY . .
+# Copy backend source and shared folder
+COPY backend ./backend
+COPY shared ./shared
+
+WORKDIR /app/backend
 RUN npm run build
 
 # ---------- Stage 2: runtime ----------
 FROM node:20-alpine
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci --only=production
+# Copy only production dependencies
+COPY backend/package*.json ./backend/
+RUN npm ci --only=production --prefix backend
 
-COPY --from=builder /app/dist ./dist
+# Copy built files from builder
+COPY --from=builder /app/backend/dist ./dist
+COPY --from=builder /app/shared ./shared
 
 EXPOSE 3001
 CMD ["node", "dist/server.js"]

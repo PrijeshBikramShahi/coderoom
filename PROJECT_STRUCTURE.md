@@ -1,11 +1,16 @@
 # Project Structure
 
 ```
-collab-editor/
+collab-code/
 ├── README.md                    # Comprehensive documentation
 ├── QUICKSTART.md               # Quick start guide
+├── DEPLOYMENT.md               # Deployment instructions
+├── PROJECT_OVERVIEW.md         # Project overview
+├── PROJECT_STRUCTURE.md        # This file
 ├── docker-compose.yml          # Docker orchestration
 ├── Dockerfile                  # Backend container build
+├── backend/Dockerfile.prod     # Backend production container build
+├── frontend/Dockerfile         # Frontend container build
 ├── setup.sh                    # Automated setup script
 ├── .gitignore                  # Git ignore rules
 ├── .dockerignore              # Docker ignore rules
@@ -17,6 +22,7 @@ collab-editor/
 │   ├── package.json           # Dependencies and scripts
 │   ├── tsconfig.json          # TypeScript configuration
 │   ├── .env.example           # Environment variables template
+│   ├── Dockerfile.prod        # Production container build
 │   │
 │   └── src/
 │       ├── server.ts          # Main server entry point
@@ -43,6 +49,8 @@ collab-editor/
     ├── tailwind.config.js     # Tailwind CSS configuration
     ├── postcss.config.js      # PostCSS configuration
     ├── .env.local             # Environment variables
+    ├── .env.frontend          # Frontend environment variables
+    ├── Dockerfile             # Frontend container build
     │
     └── src/
         ├── pages/
@@ -161,11 +169,14 @@ collab-editor/
 - **Frontend**: ~850 lines
 - **Tests**: ~250 lines
 - **Config**: ~200 lines
+- **Docker**: Multi-stage builds for development and production
 
 ## Configuration Files
 
 - **docker-compose.yml**: 3-service stack (app, mongo, redis)
 - **Dockerfile**: Multi-stage build for backend
+- **backend/Dockerfile.prod**: Production container build for backend
+- **frontend/Dockerfile**: Container build for frontend
 - **tsconfig.json**: Strict TypeScript settings
 - **tailwind.config.js**: Tailwind theme configuration
 - **.env files**: Environment-specific variables
@@ -199,7 +210,7 @@ After build:
 **Backend (.env)**
 ```
 PORT=3001
-MONGODB_URI=mongodb://mongo:27017/collab-editor
+MONGODB_URI=mongodb://mongo:27017/collab-code
 REDIS_HOST=redis
 REDIS_PORT=6379
 JWT_SECRET=your-secret-key
@@ -207,6 +218,12 @@ NODE_ENV=development
 ```
 
 **Frontend (.env.local)**
+```
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+NEXT_PUBLIC_WS_URL=ws://localhost:3001/ws
+```
+
+**Frontend (.env.frontend)**
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
 NEXT_PUBLIC_WS_URL=ws://localhost:3001/ws

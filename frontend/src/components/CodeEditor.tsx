@@ -9,10 +9,10 @@ interface CodeEditorProps {
   userId: string;
 }
 
-export const CodeEditor: React.FC<CodeEditorProps> = ({ 
-  onOperation, 
+export const CodeEditor: React.FC<CodeEditorProps> = ({
+  onOperation,
   onCursorMove,
-  userId 
+  userId
 }) => {
   const { content, docId, serverVersion } = useEditorStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -32,7 +32,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         cursorPos - (newContent.length - oldContent.length),
         cursorPos
       );
-      
+
       const op: Operation = {
         opId: uuidv4(),
         docId: docId!,
@@ -47,7 +47,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
     } else if (newContent.length < oldContent.length) {
       // Delete operation
       const deletedLength = oldContent.length - newContent.length;
-      
+
       const op: Operation = {
         opId: uuidv4(),
         docId: docId!,

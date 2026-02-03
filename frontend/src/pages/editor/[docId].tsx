@@ -91,7 +91,7 @@ export default function EditorPage() {
   return (
     <div className="h-screen flex flex-col bg-gray-100">
       <TopBar docId={docId as string} />
-      
+
       <div className="flex-1 flex overflow-hidden">
         <div className="flex-1 overflow-auto">
           <CodeEditor
@@ -100,7 +100,7 @@ export default function EditorPage() {
             userId={userId}
           />
         </div>
-        
+
         <div className="w-80">
           <CollaboratorsPanel />
         </div>

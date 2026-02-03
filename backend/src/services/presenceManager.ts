@@ -5,10 +5,8 @@ export class PresenceManager {
   private redis: Redis;
   private readonly PRESENCE_TTL = 30; // 30 seconds
 
-  constructor(redisHost: string, redisPort: number) {
-    this.redis = new Redis({
-      host: redisHost,
-      port: redisPort,
+  constructor(redisUrl: string) {
+    this.redis = new Redis(redisUrl, {
       retryStrategy: (times: number) => {
         const delay = Math.min(times * 50, 2000);
         return delay;

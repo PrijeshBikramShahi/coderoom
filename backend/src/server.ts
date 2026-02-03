@@ -16,12 +16,11 @@ dotenv.config();
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
 if (!process.env.MONGODB_URI) throw new Error('MONGODB_URI is required');
-if (!process.env.REDIS_HOST) throw new Error('REDIS_HOST is required');
+if (!process.env.REDIS_URL) throw new Error('REDIS_URL is required');
 if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET is required');
 
 const MONGODB_URI = process.env.MONGODB_URI;
-const REDIS_HOST = process.env.REDIS_HOST;
-const REDIS_PORT = parseInt(process.env.REDIS_PORT || '6379', 10);
+const REDIS_URL = process.env.REDIS_URL;
 const JWT_SECRET = process.env.JWT_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
@@ -37,7 +36,7 @@ async function startServer() {
 
   // Initialize services
   const documentManager = new DocumentManager();
-  const presenceManager = new PresenceManager(REDIS_HOST, REDIS_PORT);
+const presenceManager = new PresenceManager(REDIS_URL);
   const connectionManager = new ConnectionManager(
     documentManager,
     presenceManager,

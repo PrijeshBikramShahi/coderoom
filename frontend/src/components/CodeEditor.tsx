@@ -16,7 +16,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
 }) => {
   const { content, docId, serverVersion } = useEditorStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const cursorThrottleRef = useRef<NodeJS.Timeout>();
+  const cursorThrottleRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;

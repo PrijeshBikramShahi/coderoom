@@ -1,17 +1,23 @@
-# Real-Time Collaborative Code Editor
+# CodeRoom
 
-A production-ready, real-time collaborative code editor built with WebSockets, custom Operational Transform (OT), and modern TypeScript stack.
+**A shared code editor where multiple people can type in the same document and
+see each other's changes as they happen.**
+
+CodeRoom is an engineering prototype for real-time text collaboration. A
+Next.js client applies edits optimistically, while a WebSocket service orders
+operations, transforms concurrent changes, tracks presence, and persists
+documents.
 
 ## 🚀 Features
 
 - **Real-time collaboration**: Multiple users can edit the same document simultaneously
-- **Custom OT implementation**: Conflict-free concurrent editing with deterministic state management
+- **Custom OT implementation**: Transforms the documented concurrent insert and delete cases against server history
 - **Optimistic updates**: Instant local rendering with server validation
 - **Automatic reconnection**: Exponential backoff with state resync
 - **Live presence**: See active collaborators and their cursor positions
 - **Type-safe**: End-to-end TypeScript with shared types
 - **Containerized**: Docker-ready with multi-stage builds
-- **Scalable architecture**: Redis for presence, MongoDB for persistence
+- **Service-backed state**: Redis tracks presence and MongoDB persists documents
 
 ## 🏗️ Architecture
 
@@ -53,7 +59,7 @@ A production-ready, real-time collaborative code editor built with WebSockets, c
 
 ## 📚 Custom Operational Transform Algorithm
 
-This implementation uses a simplified but production-ready OT algorithm:
+This implementation uses a simplified Operational Transform algorithm:
 
 ### Core Transform Rules
 
@@ -283,87 +289,32 @@ Connect: `ws://host:3001/ws?token=<JWT>`
    - Verify collaborator list updates
    - Close tab and verify user removal
 
-## 📈 Performance Characteristics
+## Product boundaries
 
-- **Time To Interactive (TTI)**: < 1.5s
-- **WebSocket reconnect**: < 2s average (exponential backoff)
-- **Local edit latency**: < 16ms (instant)
-- **Operation throughput**: 100+ concurrent editors per document
-- **Cursor update throttle**: 150ms
+CodeRoom is a single-instance portfolio prototype, not a hosted multi-tenant
+service. Its automated tests cover core OT transformations and application, but
+the repository does not contain load-test evidence for a specific editor or
+connection count. The current editor intentionally omits syntax highlighting,
+undo/redo, document permissions, and visual collaborator cursors.
 
-### Bottlenecks & Mitigation
-
-| Bottleneck | Impact | Mitigation |
-|------------|--------|-----------|
-| MongoDB writes | High write load | Batch saves (2s or 20 ops) |
-| Redis round-trips | Cursor latency | Throttle updates to 150ms |
-| WebSocket memory | 100+ clients | Use Redis pub/sub for >1000 users |
-| OT computation | O(n) transforms | Keep pending ops queue small (<10) |
-
-## 🚀 Scaling Considerations
-
-### Current Limits (Single Instance)
-
-- **100+ concurrent editors per document** - tested and stable
-- **1000+ active WebSocket connections** - with proper resource limits
-- **10,000 documents** - MongoDB handles easily
-
-### Scaling Path
-
-1. **Horizontal scaling** (1-10K users):
-   - Add Redis pub/sub for cross-instance message broadcasting
-   - Use sticky sessions for WebSocket connections
-   - Stateless backend enables simple load balancing
-
-2. **Sharding** (10K-100K users):
-   - Shard documents by docId across multiple MongoDB instances
-   - Partition Redis by document hash
-   - Use distributed tracing (OpenTelemetry)
-
-3. **Regional deployment** (100K+ users):
-   - Deploy regionally with local Redis/MongoDB
-   - Use CRDT instead of OT for global collaboration
-   - Implement operation compaction
-
-### Known Tradeoffs
-
-- **Consistency vs Latency**: Strong consistency chosen over eventual
-- **Memory vs CPU**: Keeps recent ops in memory for faster transforms
-- **Simplicity vs Features**: No syntax highlighting to keep bundle small
-- **OT vs CRDT**: OT chosen for simpler implementation, CRDT scales better globally
-
-## 🔐 Security
+## Security boundaries
 
 - JWT authentication for WebSocket connections
 - Token validation on connection upgrade
-- No SQL injection (parameterized queries)
-- Rate limiting on API endpoints (TODO)
 - Input validation on all operations
 - No file uploads (no malware risk)
 
-**Production TODO**:
-- Add rate limiting per user
-- Implement document permissions
-- Add audit logging
-- Use secure WebSocket (wss://)
-- Rotate JWT secrets
-- Add CORS whitelist
+For local development, JWT authentication protects the WebSocket upgrade. The
+application does not yet provide document-level authorization, rate limiting,
+audit logging, or a hardened public deployment configuration. Run it on a
+trusted development network and provide secrets through environment variables.
 
-## 🐛 Known Issues & Future Improvements
+## Known limitations
 
-### Known Issues
 - No undo/redo support
 - Cursor positions not shown visually in editor
 - No conflict resolution for cursor overlaps
 - Large documents (>1MB) slow down
-
-### Future Improvements
-- Add syntax highlighting with Monaco/CodeMirror
-- Implement undo/redo with operation inversion
-- Add visual cursor indicators
-- Support rich text formatting
-- Add document versioning/snapshots
-- Implement conflict-free replicated data types (CRDTs)
 
 ## 📝 License
 
@@ -378,7 +329,3 @@ This is a portfolio project, but suggestions are welcome via issues.
 For questions about implementation details or employment opportunities:
 - Create an issue in this repository
 - The OT algorithm and architecture can be discussed in detail
-
----
-
-**Built with ❤️ to demonstrate production-ready collaborative editing**

@@ -8,7 +8,7 @@ const INITIAL_RECONNECT_DELAY = 1000;
 
 export function useWebSocket(token: string | null, docId: string | null) {
   const wsRef = useRef<WebSocket | null>(null);
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const reconnectDelayRef = useRef(INITIAL_RECONNECT_DELAY);
   const shouldReconnectRef = useRef(true);
 
